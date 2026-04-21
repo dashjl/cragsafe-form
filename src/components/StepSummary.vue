@@ -78,17 +78,6 @@
         </div>
       </TransitionGroup>
 
-      <!-- Upload button -->
-      <button
-        v-if="files.length > 0 && !uploadSuccess"
-        type="button"
-        class="btn btn-secondary upload-btn"
-        :disabled="uploading"
-        @click="uploadFiles"
-      >
-        <span v-if="uploading" class="spinner" />
-        {{ uploading ? `Uploading (${uploadProgress}%)...` : `Upload ${files.length} File${files.length !== 1 ? 's' : ''}` }}
-      </button>
 
       <!-- Success message -->
       <transition name="slide-fade">
@@ -108,9 +97,9 @@
         </div>
       </transition>
 
-      <!-- Validation error -->
+      <!-- Validation / upload error -->
       <p v-if="showError" class="error-msg" style="margin-top: 12px;">
-        Please upload receipt photos or PDFs before continuing.
+        {{ errorMsg }}
       </p>
     </div>
   </FormSection>
@@ -133,6 +122,7 @@ const uploadProgress = ref(0)
 const uploadSuccess = ref(false)
 const uploadError = ref('')
 const showError = ref(false)
+const errorMsg = ref('')
 
 const grandTotal = computed(() =>
   props.hardware.reduce((sum, item) => sum + calcItemTotal(item), 0)
@@ -164,40 +154,44 @@ function formatFileSize(bytes) {
 }
 
 async function uploadFiles() {
-  if (files.value.length === 0) return
-
   uploading.value = true
   uploadError.value = ''
   uploadProgress.value = 0
 
   try {
-    // Create FormData with files
     const formData = new FormData()
     files.value.forEach((file, index) => {
       formData.append(`receipt_${index}`, file)
     })
 
-    // For now, simulate upload success
-    // In production, this will send to Apps Script via submitToGoogleSheets
+    // Simulate upload — in production this sends to Apps Script
     await new Promise(r => setTimeout(r, 1500))
     uploadProgress.value = 100
 
     uploadSuccess.value = true
     showError.value = false
+    return true
   } catch (err) {
     uploadError.value = 'Failed to upload files. Please try again.'
+    return false
   } finally {
     uploading.value = false
   }
 }
 
-function validate() {
-  if (files.length === 0 || !uploadSuccess.value) {
+async function validate() {
+  if (files.value.length === 0) {
+    errorMsg.value = 'Please add at least one receipt photo or PDF before continuing.'
     showError.value = true
     return false
   }
-  showError.value = false
-  return true
+  if (uploadSuccess.value) return true
+  const ok = await uploadFiles()
+  if (!ok) {
+    errorMsg.value = 'Upload failed. Please try again.'
+    showError.value = true
+  }
+  return ok
 }
 
 defineExpose({ validate, files })
@@ -386,10 +380,6 @@ defineExpose({ validate, files })
   color: var(--chalk);
 }
 
-.upload-btn {
-  width: 100%;
-  margin-bottom: 12px;
-}
 
 .spinner {
   display: inline-block;

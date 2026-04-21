@@ -33,11 +33,12 @@
         <input
           type="text"
           v-model="form.signatureName"
-          placeholder="Jane Smith"
+          :placeholder="expectedName || 'Jane Smith'"
           class="signature-input"
           @input="errors.signatureName = ''"
         />
         <span v-if="errors.signatureName" class="error-msg">{{ errors.signatureName }}</span>
+        <span v-else-if="expectedName" class="helper-text">Must match the name entered on the previous page: <strong>{{ expectedName }}</strong></span>
       </div>
 
       <div class="field-row">
@@ -60,8 +61,17 @@
 import { reactive, computed } from 'vue'
 import FormSection from './FormSection.vue'
 
-const props = defineProps({ form: { type: Object, required: true } })
+const props = defineProps({
+  form: { type: Object, required: true },
+  contact: { type: Object, default: () => ({}) },
+})
 const errors = reactive({})
+
+const expectedName = computed(() => {
+  const first = props.contact.firstName?.trim() || ''
+  const last = props.contact.lastName?.trim() || ''
+  return first && last ? `${first} ${last}` : first || last
+})
 
 const todayFormatted = computed(() => {
   return new Date().toLocaleDateString('en-CA', { year: 'numeric', month: 'long', day: 'numeric' })
@@ -74,8 +84,12 @@ function toggleAgree() {
 
 function validate() {
   let valid = true
-  if (!props.form.signatureName?.trim()) {
+  const typed = props.form.signatureName?.trim() || ''
+  if (!typed) {
     errors.signatureName = 'Please type your full name to sign'
+    valid = false
+  } else if (expectedName.value && typed.toLowerCase() !== expectedName.value.toLowerCase()) {
+    errors.signatureName = `Name does not match your contact information. Please go back and correct your name, or type "${expectedName.value}" to match.`
     valid = false
   }
   if (!props.form.signed) {
@@ -155,6 +169,17 @@ defineExpose({ validate })
 
 .agree-check:hover {
   background: rgba(240,237,230,0.03);
+}
+
+.helper-text {
+  display: block;
+  font-size: 0.78rem;
+  color: rgba(240,237,230,0.45);
+  margin-top: 4px;
+}
+
+.helper-text strong {
+  color: rgba(240,237,230,0.65);
 }
 
 .check-error {

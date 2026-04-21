@@ -48,7 +48,7 @@
 
         <!-- Step 4: Waiver -->
         <div v-show="currentStep === 4">
-          <StepWaiver :form="formData.waiver" ref="stepWaiver" />
+          <StepWaiver :form="formData.waiver" :contact="formData.contact" ref="stepWaiver" />
         </div>
 
         <!-- Navigation -->
@@ -66,9 +66,11 @@
             v-if="currentStep < STEPS.length - 1"
             type="button"
             class="btn btn-primary"
+            :disabled="continuing"
             @click="goNext"
           >
-            Continue →
+            <span v-if="continuing" class="spinner" />
+            {{ continuing ? 'Uploading...' : 'Continue →' }}
           </button>
           <button
             v-else
@@ -127,6 +129,7 @@ const SCRIPT_URL = import.meta.env.VITE_APPS_SCRIPT_URL || ''
 const currentStep = ref(0)
 const submitted = ref(false)
 const submitting = ref(false)
+const continuing = ref(false)
 const submitError = ref('')
 const submittedId = ref('')
 const showConfigNotice = ref(false)
@@ -171,11 +174,19 @@ function getStepRef() {
   return stepRefs[currentStep.value]?.value
 }
 
-function goNext() {
+async function goNext() {
   const ref = getStepRef()
-  if (ref && !ref.validate()) {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-    return
+  if (ref?.validate) {
+    continuing.value = true
+    try {
+      const valid = await ref.validate()
+      if (!valid) {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+        return
+      }
+    } finally {
+      continuing.value = false
+    }
   }
   currentStep.value++
   window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -253,7 +264,8 @@ function resetForm() {
   justify-content: center;
 }
 
-.submit-btn:disabled {
+.submit-btn:disabled,
+.btn:disabled {
   opacity: 0.7;
   cursor: not-allowed;
 }
