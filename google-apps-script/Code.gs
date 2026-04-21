@@ -1,18 +1,16 @@
 /**
  * CragSafe Foundation — Google Apps Script Backend
- * 
+ *
  * SETUP INSTRUCTIONS:
  * 1. Open Google Sheets → Extensions → Apps Script
  * 2. Paste this entire file into the editor
- * 3. Update SHEET_ID below with your spreadsheet ID
+ * 3. Update SHEET_ID and RECEIPTS_FOLDER_ID in Config.gs
  * 4. Click Deploy → New Deployment → Web App
  *    - Execute as: Me
  *    - Who has access: Anyone
  * 5. Copy the Web App URL into your .env.local as VITE_APPS_SCRIPT_URL
  *    and into GitHub Secrets as VITE_APPS_SCRIPT_URL
  */
-
-const SHEET_ID = 'YOUR_SPREADSHEET_ID_HERE' // ← Replace this
 
 const HEADERS = [
   'Submitted At',
@@ -35,11 +33,28 @@ const HEADERS = [
   'Waiver Signed',
   'Signature Name',
   'Waiver Date',
+  // Receipts
+  'Receipts Folder Link',
 ]
 
 function doPost(e) {
   try {
-    const data = JSON.parse(e.postData.contents)
+    // Parse form data (can be JSON or multipart)
+    const data = {}
+    let receiptsFolderLink = ''
+
+    // Handle multipart/form-data (when files are uploaded)
+    if (e.postData && e.postData.type === 'application/octet-stream') {
+      // Multipart file upload — parse manually
+      parseMultipartData(e, data)
+    } else if (e.postData && e.postData.contents) {
+      // JSON data (no files)
+      Object.assign(data, JSON.parse(e.postData.contents))
+    } else {
+      // Try parsing from parameters
+      Object.assign(data, e.parameter)
+    }
+
     const ss = SpreadsheetApp.openById(SHEET_ID)
     let sheet = ss.getSheetByName('Applications')
 
@@ -53,6 +68,30 @@ function doPost(e) {
       headerRange.setFontColor('#f0ede6')
       headerRange.setFontWeight('bold')
       sheet.setFrozenRows(1)
+    }
+
+    // Handle file uploads if receipts folder is configured
+    const fileBlobs = e.parameter ? {} : {}
+    if (e.parameters) {
+      // In Apps Script, file parameters are in e.parameters
+      for (const [key, value] of Object.entries(e.parameters)) {
+        if (key.startsWith('receipt_')) {
+          fileBlobs[key] = value
+        }
+      }
+    }
+
+    // Create receipts subfolder if files exist and RECEIPTS_FOLDER_ID is set
+    if (Object.keys(fileBlobs).length > 0 && RECEIPTS_FOLDER_ID !== 'YOUR_RECEIPTS_FOLDER_ID_HERE') {
+      const parentFolder = DriveApp.getFolderById(RECEIPTS_FOLDER_ID)
+      const appFolder = parentFolder.createFolder(data.applicationId)
+
+      // Save files to the folder
+      for (const [key, blob] of Object.entries(fileBlobs)) {
+        appFolder.createFile(blob)
+      }
+
+      receiptsFolderLink = appFolder.getUrl()
     }
 
     const row = [
@@ -71,6 +110,7 @@ function doPost(e) {
       data.waiverSigned,
       data.waiverSignatureName,
       data.waiverDate,
+      receiptsFolderLink,
     ]
 
     sheet.appendRow(row)
@@ -79,7 +119,7 @@ function doPost(e) {
     sheet.autoResizeColumns(1, HEADERS.length - 1)
 
     return ContentService
-      .createTextOutput(JSON.stringify({ success: true, id: data.applicationId }))
+      .createTextOutput(JSON.stringify({ success: true, id: data.applicationId, folderUrl: receiptsFolderLink }))
       .setMimeType(ContentService.MimeType.JSON)
 
   } catch (err) {
@@ -87,6 +127,55 @@ function doPost(e) {
       .createTextOutput(JSON.stringify({ success: false, error: err.message }))
       .setMimeType(ContentService.MimeType.JSON)
   }
+}
+
+// Helper function to parse multipart form data
+function parseMultipartData(e, data) {
+  const boundary = getBoundary(e.postData.type)
+  const contents = e.postData.contents
+  const parts = contents.split('--' + boundary)
+
+  for (let i = 1; i < parts.length - 1; i++) {
+    const part = parts[i]
+    const lines = part.split('\r\n')
+
+    // Find the blank line that separates headers from content
+    let emptyLineIndex = -1
+    for (let j = 0; j < lines.length; j++) {
+      if (lines[j] === '') {
+        emptyLineIndex = j
+        break
+      }
+    }
+
+    if (emptyLineIndex === -1) continue
+
+    // Extract field name from Content-Disposition header
+    const dispositionLine = lines[0] + (lines[1] ? '\r\n' + lines[1] : '')
+    const nameMatch = dispositionLine.match(/name="([^"]+)"/)
+    const filenameMatch = dispositionLine.match(/filename="([^"]+)"/)
+
+    if (!nameMatch) continue
+
+    const fieldName = nameMatch[1]
+    const content = lines.slice(emptyLineIndex + 1).join('\r\n').replace(/\r\n$/, '')
+
+    if (filenameMatch) {
+      // It's a file
+      const filename = filenameMatch[1]
+      const blob = Utilities.newBlob(content, 'application/octet-stream', filename)
+      data[fieldName] = blob
+    } else {
+      // It's a regular field
+      data[fieldName] = content
+    }
+  }
+}
+
+// Helper to extract boundary from Content-Type header
+function getBoundary(contentType) {
+  const matches = contentType.match(/boundary=([^;]+)/)
+  return matches ? matches[1].replace(/"/g, '') : ''
 }
 
 // GET handler for testing the deployment is live

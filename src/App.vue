@@ -33,13 +33,21 @@
           />
         </div>
 
-        <!-- Step 2: Contact -->
+        <!-- Step 2: Summary -->
         <div v-show="currentStep === 2">
+          <StepSummary
+            :hardware="formData.hardware"
+            ref="stepSummary"
+          />
+        </div>
+
+        <!-- Step 3: Contact -->
+        <div v-show="currentStep === 3">
           <StepContact :form="formData.contact" ref="stepContact" />
         </div>
 
-        <!-- Step 3: Waiver -->
-        <div v-show="currentStep === 3">
+        <!-- Step 4: Waiver -->
+        <div v-show="currentStep === 4">
           <StepWaiver :form="formData.waiver" ref="stepWaiver" />
         </div>
 
@@ -99,6 +107,7 @@ import { ref, reactive, computed } from 'vue'
 import AppHeader from './components/AppHeader.vue'
 import StepRoute from './components/StepRoute.vue'
 import StepHardware from './components/StepHardware.vue'
+import StepSummary from './components/StepSummary.vue'
 import StepContact from './components/StepContact.vue'
 import StepWaiver from './components/StepWaiver.vue'
 import SuccessScreen from './components/SuccessScreen.vue'
@@ -108,6 +117,7 @@ import { calcItemTotal, formatCurrency } from './composables/hardwareData.js'
 const STEPS = [
   { id: 'route', label: 'Route' },
   { id: 'hardware', label: 'Hardware' },
+  { id: 'summary', label: 'Summary' },
   { id: 'contact', label: 'Contact' },
   { id: 'waiver', label: 'Waiver' },
 ]
@@ -146,10 +156,11 @@ const formData = reactive({
 // Step refs
 const stepRoute = ref(null)
 const stepHardware = ref(null)
+const stepSummary = ref(null)
 const stepContact = ref(null)
 const stepWaiver = ref(null)
 
-const stepRefs = [stepRoute, stepHardware, stepContact, stepWaiver]
+const stepRefs = [stepRoute, stepHardware, stepSummary, stepContact, stepWaiver]
 
 const grandTotalFormatted = computed(() => {
   const total = formData.hardware.reduce((sum, item) => sum + calcItemTotal(item), 0)
@@ -188,10 +199,12 @@ async function handleSubmit() {
       showConfigNotice.value = true
       await new Promise(r => setTimeout(r, 800)) // simulate
     } else {
-      await submitToGoogleSheets(formData, SCRIPT_URL)
+      const summaryStep = stepSummary.value
+      const files = summaryStep?.files || []
+      await submitToGoogleSheets(formData, SCRIPT_URL, files)
     }
 
-    submittedId.value = `CS-${Date.now()}`
+    submittedId.value = generateApplicationId()
     submitted.value = true
     window.scrollTo({ top: 0, behavior: 'smooth' })
   } catch (err) {
@@ -199,6 +212,15 @@ async function handleSubmit() {
   } finally {
     submitting.value = false
   }
+}
+
+function generateApplicationId() {
+  const now = new Date()
+  const yy = String(now.getFullYear()).slice(-2)
+  const mm = String(now.getMonth() + 1).padStart(2, '0')
+  const dd = String(now.getDate()).padStart(2, '0')
+  const xxx = String(Date.now() % 1000).padStart(3, '0')
+  return `${yy}${mm}${dd}-${xxx}`
 }
 
 function resetForm() {

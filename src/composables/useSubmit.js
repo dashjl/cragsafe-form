@@ -1,8 +1,13 @@
 // Google Sheets submission via Apps Script Web App
 // See README for setup instructions
 
-export async function submitToGoogleSheets(formData, scriptUrl) {
+export async function submitToGoogleSheets(formData, scriptUrl, files = []) {
   const payload = flattenFormData(formData)
+
+  // If there are files, use multipart/form-data, otherwise use JSON
+  if (files.length > 0) {
+    return submitWithFiles(payload, scriptUrl, files)
+  }
 
   const response = await fetch(scriptUrl, {
     method: 'POST',
@@ -12,6 +17,28 @@ export async function submitToGoogleSheets(formData, scriptUrl) {
   })
 
   // no-cors means we can't read the response body — treat as success if no throw
+  return { success: true }
+}
+
+async function submitWithFiles(payload, scriptUrl, files) {
+  const formData = new FormData()
+
+  // Add all form fields
+  Object.entries(payload).forEach(([key, value]) => {
+    formData.append(key, typeof value === 'object' ? JSON.stringify(value) : value)
+  })
+
+  // Add files
+  files.forEach((file, index) => {
+    formData.append(`receipt_${index}`, file)
+  })
+
+  const response = await fetch(scriptUrl, {
+    method: 'POST',
+    mode: 'no-cors',
+    body: formData,
+  })
+
   return { success: true }
 }
 
