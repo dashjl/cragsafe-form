@@ -21,36 +21,11 @@
         <label class="required">Email Address</label>
         <input type="email" v-model="form.email" placeholder="jane@example.com" @input="errors.email = ''" />
         <span v-if="errors.email" class="error-msg">{{ errors.email }}</span>
+        <span class="helper-text">This email will be used to send eTransfer funding if your application is approved.</span>
       </div>
       <div class="field" :class="{ 'field-error': errors.phone }">
         <label>Phone Number</label>
         <input type="tel" v-model="form.phone" placeholder="+1 (555) 000-0000" />
-      </div>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="field" :class="{ 'field-error': errors.address }">
-      <label class="required">Street Address</label>
-      <input type="text" v-model="form.address" placeholder="123 Crag Road" @input="errors.address = ''" />
-      <span v-if="errors.address" class="error-msg">{{ errors.address }}</span>
-    </div>
-
-    <div class="field-row">
-      <div class="field" :class="{ 'field-error': errors.city }">
-        <label class="required">City</label>
-        <input type="text" v-model="form.city" placeholder="Squamish" @input="errors.city = ''" />
-        <span v-if="errors.city" class="error-msg">{{ errors.city }}</span>
-      </div>
-      <div class="field" :class="{ 'field-error': errors.province }">
-        <label class="required">Province / State</label>
-        <input type="text" v-model="form.province" placeholder="BC" @input="errors.province = ''" />
-        <span v-if="errors.province" class="error-msg">{{ errors.province }}</span>
-      </div>
-      <div class="field" :class="{ 'field-error': errors.postalCode }">
-        <label class="required">Postal / ZIP Code</label>
-        <input type="text" v-model="form.postalCode" placeholder="V8B 0A1" @input="errors.postalCode = ''" />
-        <span v-if="errors.postalCode" class="error-msg">{{ errors.postalCode }}</span>
       </div>
     </div>
   </FormSection>
@@ -65,7 +40,7 @@ const errors = reactive({})
 
 function validate() {
   let valid = true
-  const required = ['firstName', 'lastName', 'email', 'address', 'city', 'province', 'postalCode']
+  const required = ['firstName', 'lastName', 'email']
   for (const key of required) {
     if (!props.form[key]?.trim()) {
       errors[key] = 'Required'

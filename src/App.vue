@@ -135,10 +135,6 @@ const formData = reactive({
     lastName: '',
     email: '',
     phone: '',
-    address: '',
-    city: '',
-    province: '',
-    postalCode: '',
   },
   waiver: {
     signed: false,
@@ -213,7 +209,7 @@ function resetForm() {
   Object.assign(formData.route, { mountainProjectUrl: '' })
   Object.assign(formData.work, { description: '', reason: '' })
   formData.hardware = []
-  Object.assign(formData.contact, { firstName: '', lastName: '', email: '', phone: '', address: '', city: '', province: '', postalCode: '' })
+  Object.assign(formData.contact, { firstName: '', lastName: '', email: '', phone: '' })
   Object.assign(formData.waiver, { signed: false, signatureName: '', date: new Date().toISOString().split('T')[0] })
 }
 </script>

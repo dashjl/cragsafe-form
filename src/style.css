@@ -149,6 +149,14 @@ textarea {
   letter-spacing: 0.05em;
 }
 
+.helper-text {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--chalk-dim);
+  margin-top: 4px;
+  letter-spacing: 0.05em;
+}
+
 /* Buttons */
 .btn {
   display: inline-flex;

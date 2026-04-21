@@ -42,10 +42,6 @@ function flattenFormData(formData) {
     lastName: formData.contact.lastName,
     email: formData.contact.email,
     phone: formData.contact.phone,
-    address: formData.contact.address,
-    city: formData.contact.city,
-    province: formData.contact.province,
-    postalCode: formData.contact.postalCode,
 
     // Waiver
     waiverSigned: formData.waiver.signed,
