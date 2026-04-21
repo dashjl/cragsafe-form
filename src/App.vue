@@ -8,7 +8,7 @@
         v-if="submitted"
         :application-id="submittedId"
         :email="formData.contact.email"
-        :route-name="formData.route.routeName"
+        :mountain-project-url="formData.route.mountainProjectUrl"
         :item-count="formData.hardware.length"
         :total-cost="grandTotalFormatted"
         @reset="resetForm"
@@ -19,18 +19,13 @@
     <transition name="slide-fade">
       <div v-if="!submitted">
 
-        <!-- Step 0: Route -->
+        <!-- Step 0: Route + Work -->
         <div v-show="currentStep === 0">
-          <StepRoute :form="formData.route" ref="stepRoute" />
+          <StepRoute :form="formData.route" :work="formData.work" ref="stepRoute" />
         </div>
 
-        <!-- Step 1: Work -->
+        <!-- Step 1: Hardware -->
         <div v-show="currentStep === 1">
-          <StepWork :form="formData.work" ref="stepWork" />
-        </div>
-
-        <!-- Step 2: Hardware -->
-        <div v-show="currentStep === 2">
           <StepHardware
             :hardware="formData.hardware"
             @update:hardware="val => formData.hardware = val"
@@ -38,13 +33,13 @@
           />
         </div>
 
-        <!-- Step 3: Contact -->
-        <div v-show="currentStep === 3">
+        <!-- Step 2: Contact -->
+        <div v-show="currentStep === 2">
           <StepContact :form="formData.contact" ref="stepContact" />
         </div>
 
-        <!-- Step 4: Waiver -->
-        <div v-show="currentStep === 4">
+        <!-- Step 3: Waiver -->
+        <div v-show="currentStep === 3">
           <StepWaiver :form="formData.waiver" ref="stepWaiver" />
         </div>
 
@@ -103,7 +98,6 @@
 import { ref, reactive, computed } from 'vue'
 import AppHeader from './components/AppHeader.vue'
 import StepRoute from './components/StepRoute.vue'
-import StepWork from './components/StepWork.vue'
 import StepHardware from './components/StepHardware.vue'
 import StepContact from './components/StepContact.vue'
 import StepWaiver from './components/StepWaiver.vue'
@@ -113,7 +107,6 @@ import { calcItemTotal, formatCurrency } from './composables/hardwareData.js'
 
 const STEPS = [
   { id: 'route', label: 'Route' },
-  { id: 'work', label: 'Work' },
   { id: 'hardware', label: 'Hardware' },
   { id: 'contact', label: 'Contact' },
   { id: 'waiver', label: 'Waiver' },
@@ -131,12 +124,6 @@ const showConfigNotice = ref(false)
 const formData = reactive({
   route: {
     mountainProjectUrl: '',
-    routeName: '',
-    firstAscent: '',
-    grade: '',
-    height: '',
-    description: '',
-    protection: '',
   },
   work: {
     description: '',
@@ -162,12 +149,11 @@ const formData = reactive({
 
 // Step refs
 const stepRoute = ref(null)
-const stepWork = ref(null)
 const stepHardware = ref(null)
 const stepContact = ref(null)
 const stepWaiver = ref(null)
 
-const stepRefs = [stepRoute, stepWork, stepHardware, stepContact, stepWaiver]
+const stepRefs = [stepRoute, stepHardware, stepContact, stepWaiver]
 
 const grandTotalFormatted = computed(() => {
   const total = formData.hardware.reduce((sum, item) => sum + calcItemTotal(item), 0)
@@ -224,7 +210,7 @@ function resetForm() {
   submitted.value = false
   submitError.value = ''
   showConfigNotice.value = false
-  Object.assign(formData.route, { mountainProjectUrl: '', routeName: '', firstAscent: '', grade: '', height: '', description: '', protection: '' })
+  Object.assign(formData.route, { mountainProjectUrl: '' })
   Object.assign(formData.work, { description: '', reason: '' })
   formData.hardware = []
   Object.assign(formData.contact, { firstName: '', lastName: '', email: '', phone: '', address: '', city: '', province: '', postalCode: '' })

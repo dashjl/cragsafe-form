@@ -14,8 +14,8 @@
     </p>
     <div class="success-details">
       <div class="detail-row">
-        <span>Route</span>
-        <span>{{ routeName }}</span>
+        <span>Mountain Project</span>
+        <span class="mp-link"><a :href="mountainProjectUrl" target="_blank" rel="noopener">View Route →</a></span>
       </div>
       <div class="detail-row">
         <span>Hardware Items</span>
@@ -34,7 +34,7 @@
 defineProps({
   applicationId: String,
   email: String,
-  routeName: String,
+  mountainProjectUrl: String,
   itemCount: Number,
   totalCost: String,
 })
@@ -112,5 +112,10 @@ defineEmits(['reset'])
 
 .detail-row span:last-child {
   color: var(--chalk);
+}
+
+.mp-link a {
+  color: var(--sky-light, #7ab8d4);
+  text-decoration: underline;
 }
 </style>

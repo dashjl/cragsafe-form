@@ -1,7 +1,7 @@
 <template>
   <FormSection
     title="Route Details"
-    description="Provide information about the route requiring maintenance. A Mountain Project link is required."
+    description="Provide the Mountain Project link for the route requiring maintenance, then describe the work carried out."
   >
     <div class="field" :class="{ 'field-error': errors.mountainProjectUrl }">
       <label class="required">Mountain Project URL</label>
@@ -14,52 +14,26 @@
       <span v-if="errors.mountainProjectUrl" class="error-msg">{{ errors.mountainProjectUrl }}</span>
     </div>
 
-    <div class="field-row">
-      <div class="field" :class="{ 'field-error': errors.routeName }">
-        <label class="required">Route Name</label>
-        <input type="text" v-model="form.routeName" placeholder="e.g. The Nose" @input="errors.routeName = ''" />
-        <span v-if="errors.routeName" class="error-msg">{{ errors.routeName }}</span>
-      </div>
-      <div class="field" :class="{ 'field-error': errors.grade }">
-        <label class="required">Grade</label>
-        <input type="text" v-model="form.grade" placeholder="e.g. 5.10a" @input="errors.grade = ''" />
-        <span v-if="errors.grade" class="error-msg">{{ errors.grade }}</span>
-      </div>
-    </div>
-
-    <div class="field-row">
-      <div class="field" :class="{ 'field-error': errors.firstAscent }">
-        <label class="required">First Ascent (FA)</label>
-        <input type="text" v-model="form.firstAscent" placeholder="e.g. John Gill, 1961" @input="errors.firstAscent = ''" />
-        <span v-if="errors.firstAscent" class="error-msg">{{ errors.firstAscent }}</span>
-      </div>
-      <div class="field" :class="{ 'field-error': errors.height }">
-        <label class="required">Height</label>
-        <input type="text" v-model="form.height" placeholder="e.g. 60m / 200ft" @input="errors.height = ''" />
-        <span v-if="errors.height" class="error-msg">{{ errors.height }}</span>
-      </div>
-    </div>
-
-    <div class="field" :class="{ 'field-error': errors.description }">
-      <label class="required">Route Description</label>
+    <div class="field" :class="{ 'field-error': errors.workDescription }">
+      <label class="required">What work was performed?</label>
       <textarea
-        v-model="form.description"
-        placeholder="Describe the route — character, style, notable features..."
+        v-model="work.description"
+        placeholder="Describe the specific work carried out — replaced bolts at pitch 2, installed new anchor chains, rebolted entire route..."
         rows="4"
-        @input="errors.description = ''"
+        @input="errors.workDescription = ''"
       />
-      <span v-if="errors.description" class="error-msg">{{ errors.description }}</span>
+      <span v-if="errors.workDescription" class="error-msg">{{ errors.workDescription }}</span>
     </div>
 
-    <div class="field" :class="{ 'field-error': errors.protection }">
-      <label class="required">Protection Details</label>
+    <div class="field" :class="{ 'field-error': errors.workReason }">
+      <label class="required">Why was this work necessary?</label>
       <textarea
-        v-model="form.protection"
-        placeholder="Describe existing protection — bolt counts, spacing, anchor style, gear requirements..."
-        rows="3"
-        @input="errors.protection = ''"
+        v-model="work.reason"
+        placeholder="Describe the condition requiring maintenance — corrosion, spinner bolts, missing hardware, safety concerns..."
+        rows="4"
+        @input="errors.workReason = ''"
       />
-      <span v-if="errors.protection" class="error-msg">{{ errors.protection }}</span>
+      <span v-if="errors.workReason" class="error-msg">{{ errors.workReason }}</span>
     </div>
   </FormSection>
 </template>
@@ -70,21 +44,26 @@ import FormSection from './FormSection.vue'
 
 const props = defineProps({
   form: { type: Object, required: true },
+  work: { type: Object, required: true },
 })
 
 const errors = reactive({})
 
 function validate() {
   let valid = true
-  const required = ['mountainProjectUrl', 'routeName', 'grade', 'firstAscent', 'height', 'description', 'protection']
-  for (const key of required) {
-    if (!props.form[key]?.trim()) {
-      errors[key] = 'This field is required'
-      valid = false
-    }
-  }
-  if (props.form.mountainProjectUrl && !props.form.mountainProjectUrl.startsWith('http')) {
+  if (!props.form.mountainProjectUrl?.trim()) {
+    errors.mountainProjectUrl = 'This field is required'
+    valid = false
+  } else if (!props.form.mountainProjectUrl.startsWith('http')) {
     errors.mountainProjectUrl = 'Please enter a valid URL'
+    valid = false
+  }
+  if (!props.work.description?.trim()) {
+    errors.workDescription = 'Please describe the work performed'
+    valid = false
+  }
+  if (!props.work.reason?.trim()) {
+    errors.workReason = 'Please explain why the work was necessary'
     valid = false
   }
   return valid

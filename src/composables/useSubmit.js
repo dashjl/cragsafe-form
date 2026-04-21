@@ -23,12 +23,6 @@ function flattenFormData(formData) {
 
     // Route Details
     mountainProjectUrl: formData.route.mountainProjectUrl,
-    routeName: formData.route.routeName,
-    firstAscent: formData.route.firstAscent,
-    grade: formData.route.grade,
-    height: formData.route.height,
-    description: formData.route.description,
-    protection: formData.route.protection,
 
     // Work Description
     workDescription: formData.work.description,

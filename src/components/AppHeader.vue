@@ -2,23 +2,23 @@
   <header class="app-header">
     <div class="header-top">
       <div class="logo-lockup">
-        <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <polygon points="20,4 36,34 4,34" fill="none" stroke="#c4521a" stroke-width="2"/>
-          <polygon points="20,10 30,30 10,30" fill="none" stroke="rgba(240,237,230,0.2)" stroke-width="1"/>
-          <circle cx="20" cy="26" r="2.5" fill="#c4521a"/>
-          <line x1="20" y1="14" x2="20" y2="23" stroke="#c4521a" stroke-width="1.5"/>
-        </svg>
-        <div>
-          <div class="logo-text">CragSafe</div>
-          <div class="logo-sub">Foundation</div>
-        </div>
+        <img src="/logo.png" alt="CragSafe British Columbia" class="logo-img" />
+        <div class="logo-text">CragSafe</div>
       </div>
       <div class="header-badge">Funding Application</div>
     </div>
     <div class="header-rule"></div>
-    <p class="header-description">
-      Route maintenance hardware reimbursement program. Complete all sections to submit your application for review.
-    </p>
+
+    <!-- Before You Begin — shown only on step 0 -->
+    <div v-if="currentStep === 0" class="prereq-block">
+      <h2 class="prereq-heading">Before You Begin</h2>
+      <p class="prereq-intro">Please have the following ready before starting your application:</p>
+      <ul class="prereq-list">
+        <li>An updated <a href="https://www.mountainproject.com" target="_blank" rel="noopener">Mountain Project</a> route page completed with all route details (name, grade, first ascent, height, description, and protection)</li>
+        <li>A complete list of hardware used for the the project</li>
+        <li>Digital copies of receipts for all hardware purchased</li>
+      </ul>
+    </div>
 
     <!-- Progress bar -->
     <div class="progress-section">
@@ -46,6 +46,8 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
+
 const props = defineProps({
   currentStep: { type: Number, default: 0 },
   steps: { type: Array, default: () => [] },
@@ -56,10 +58,6 @@ const progressPct = computed(() =>
     ? (props.currentStep / (props.steps.length - 1)) * 100
     : 0
 )
-</script>
-
-<script>
-import { computed } from 'vue'
 </script>
 
 <style scoped>
@@ -81,10 +79,11 @@ import { computed } from 'vue'
   gap: 14px;
 }
 
-.logo-icon {
-  width: 40px;
-  height: 40px;
+.logo-img {
+  width: 52px;
+  height: 52px;
   flex-shrink: 0;
+  object-fit: contain;
 }
 
 .logo-text {
@@ -93,15 +92,6 @@ import { computed } from 'vue'
   letter-spacing: 0.08em;
   line-height: 1;
   color: var(--chalk);
-}
-
-.logo-sub {
-  font-size: 0.65rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--chalk-dim);
-  font-family: var(--font-mono);
-  margin-top: 2px;
 }
 
 .header-badge {
@@ -117,15 +107,51 @@ import { computed } from 'vue'
 .header-rule {
   height: 1px;
   background: linear-gradient(90deg, var(--rust), transparent);
-  margin-bottom: 16px;
+  margin-bottom: 28px;
 }
 
-.header-description {
+/* Before You Begin */
+.prereq-block {
+  background: rgba(232, 160, 32, 0.06);
+  border: 1px solid rgba(232, 160, 32, 0.22);
+  border-radius: 4px;
+  padding: 20px 24px;
+  margin-bottom: 32px;
+}
+
+.prereq-heading {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0.06em;
+  color: var(--warn, #e8a020);
+  margin: 0 0 8px;
+}
+
+.prereq-intro {
   font-size: 0.85rem;
   color: var(--chalk-dim);
-  max-width: 520px;
+  margin: 0 0 10px;
+}
+
+.prereq-list {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 0.85rem;
+  color: var(--chalk-dim);
   line-height: 1.7;
-  margin-bottom: 32px;
+}
+
+.prereq-list li {
+  margin-bottom: 4px;
+}
+
+.prereq-list li:last-child {
+  margin-bottom: 0;
+}
+
+.prereq-list a {
+  color: var(--sky-light, #7ab8d4);
+  text-decoration: underline;
 }
 
 /* Progress */
