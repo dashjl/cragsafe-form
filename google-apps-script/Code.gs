@@ -39,21 +39,31 @@ const HEADERS = [
 
 function doPost(e) {
   try {
+    Logger.log('=== doPost triggered ===')
+    Logger.log('postData type: ' + (e.postData ? e.postData.type : 'none'))
+    Logger.log('postData length: ' + (e.postData ? e.postData.contents.length : 0))
+    Logger.log('e.parameters keys: ' + JSON.stringify(Object.keys(e.parameters || {})))
+
     // Parse form data (can be JSON or multipart)
     const data = {}
     let receiptsFolderLink = ''
 
     // Handle multipart/form-data (when files are uploaded)
-    if (e.postData && e.postData.type === 'application/octet-stream') {
-      // Multipart file upload — parse manually
+    const contentType = e.postData ? e.postData.type : ''
+    if (contentType.indexOf('multipart/form-data') !== -1) {
+      Logger.log('Parsing as multipart/form-data')
       parseMultipartData(e, data)
+      Logger.log('Parsed data keys: ' + JSON.stringify(Object.keys(data)))
     } else if (e.postData && e.postData.contents) {
-      // JSON data (no files)
+      Logger.log('Parsing as JSON')
       Object.assign(data, JSON.parse(e.postData.contents))
     } else {
-      // Try parsing from parameters
+      Logger.log('Parsing from e.parameters')
       Object.assign(data, e.parameter)
     }
+
+    Logger.log('applicationId: ' + data.applicationId)
+    Logger.log('email: ' + data.email)
 
     const ss = SpreadsheetApp.openById(SHEET_ID)
     let sheet = ss.getSheetByName('Applications')
@@ -70,28 +80,29 @@ function doPost(e) {
       sheet.setFrozenRows(1)
     }
 
-    // Handle file uploads if receipts folder is configured
-    const fileBlobs = e.parameter ? {} : {}
-    if (e.parameters) {
-      // In Apps Script, file parameters are in e.parameters
-      for (const [key, value] of Object.entries(e.parameters)) {
-        if (key.startsWith('receipt_')) {
-          fileBlobs[key] = value
-        }
+    // Collect file blobs parsed from multipart data
+    const fileBlobs = {}
+    for (const key of Object.keys(data)) {
+      if (key.startsWith('receipt_') && data[key] instanceof Object) {
+        fileBlobs[key] = data[key]
       }
     }
+    Logger.log('Receipt file keys found: ' + JSON.stringify(Object.keys(fileBlobs)))
+    Logger.log('RECEIPTS_FOLDER_ID configured: ' + (RECEIPTS_FOLDER_ID !== 'YOUR_RECEIPTS_FOLDER_ID_HERE'))
 
     // Create receipts subfolder if files exist and RECEIPTS_FOLDER_ID is set
     if (Object.keys(fileBlobs).length > 0 && RECEIPTS_FOLDER_ID !== 'YOUR_RECEIPTS_FOLDER_ID_HERE') {
       const parentFolder = DriveApp.getFolderById(RECEIPTS_FOLDER_ID)
       const appFolder = parentFolder.createFolder(data.applicationId)
+      Logger.log('Created Drive folder: ' + appFolder.getUrl())
 
-      // Save files to the folder
       for (const [key, blob] of Object.entries(fileBlobs)) {
-        appFolder.createFile(blob)
+        const savedFile = appFolder.createFile(blob)
+        Logger.log('Saved file: ' + savedFile.getName())
       }
 
       receiptsFolderLink = appFolder.getUrl()
+      Logger.log('receiptsFolderLink: ' + receiptsFolderLink)
     }
 
     const row = [

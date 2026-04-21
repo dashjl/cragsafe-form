@@ -9,8 +9,9 @@
     <h2 class="success-title">Application Submitted</h2>
     <p class="success-id">Reference: <span>{{ applicationId }}</span></p>
     <p class="success-message">
-      Your route maintenance funding application has been received by CragSafe Foundation.
-      We'll review your submission and be in touch at <strong>{{ email }}</strong> within 5–7 business days.
+      Your funding application has been received. Our next review is for applications submitted
+      from <strong>{{ quarter.start }}</strong> to <strong>{{ quarter.end }}</strong>,
+      and we will respond by <strong>{{ quarter.response }}</strong>.
     </p>
     <div class="success-details">
       <div class="detail-row">
@@ -31,6 +32,8 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
+
 defineProps({
   applicationId: String,
   email: String,
@@ -39,6 +42,16 @@ defineProps({
   totalCost: String,
 })
 defineEmits(['reset'])
+
+const quarter = computed(() => {
+  const now = new Date()
+  const month = now.getMonth() // 0-indexed
+  const y = now.getFullYear()
+  if (month <= 2)  return { start: `January 1, ${y}`,  end: `March 31, ${y}`,     response: `April 30, ${y}`   }
+  if (month <= 5)  return { start: `April 1, ${y}`,    end: `June 30, ${y}`,      response: `July 31, ${y}`    }
+  if (month <= 8)  return { start: `July 1, ${y}`,     end: `September 30, ${y}`, response: `October 31, ${y}` }
+                   return { start: `October 1, ${y}`,  end: `December 31, ${y}`,  response: `January 31, ${y + 1}` }
+})
 </script>
 
 <style scoped>
