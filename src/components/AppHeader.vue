@@ -67,7 +67,7 @@ const progressPct = computed(() =>
   border: 1px solid rgba(26,26,24,0.09);
   border-radius: 6px;
   padding: 28px 28px 0;
-  margin-bottom: 32px;
+  margin-bottom: 48px;
   box-shadow: 0 1px 4px rgba(26,26,24,0.06);
 }
 
@@ -234,5 +234,30 @@ const progressPct = computed(() =>
   background: linear-gradient(90deg, var(--rust), var(--rust-light));
   border-radius: 1px;
   transition: width 0.4s ease;
+}
+
+@media (max-width: 480px) {
+  .app-header {
+    padding: 16px 16px 0;
+  }
+
+  .header-top {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .logo-text {
+    font-size: 1.5rem;
+  }
+
+  .header-badge {
+    align-self: center;
+    font-size: 0.55rem;
+    padding: 3px 8px;
+  }
+
+  .prereq-block {
+    padding: 14px 16px;
+  }
 }
 </style>

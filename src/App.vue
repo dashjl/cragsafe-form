@@ -257,7 +257,7 @@ function resetForm() {
   padding: 16px 20px;
   border: 1px solid rgba(26,26,24,0.09);
   border-radius: 6px;
-  margin-top: 8px;
+  margin-top: 48px;
   gap: 12px;
   background: var(--card-bg);
   box-shadow: 0 1px 3px rgba(26,26,24,0.06);

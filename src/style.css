@@ -56,6 +56,12 @@ body {
   padding: 0 24px 80px;
 }
 
+@media (max-width: 480px) {
+  #app {
+    padding: 0 12px 60px;
+  }
+}
+
 /* Typography */
 h1, h2, h3 {
   font-family: var(--font-display);
