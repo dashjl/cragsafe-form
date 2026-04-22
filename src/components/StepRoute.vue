@@ -54,8 +54,8 @@ function validate() {
   if (!props.form.mountainProjectUrl?.trim()) {
     errors.mountainProjectUrl = 'This field is required'
     valid = false
-  } else if (!props.form.mountainProjectUrl.startsWith('http')) {
-    errors.mountainProjectUrl = 'Please enter a valid URL'
+  } else if (!/^https?:\/\/www\.mountainproject\.com\/route/i.test(props.form.mountainProjectUrl)) {
+    errors.mountainProjectUrl = 'Please enter a valid Mountain Project route URL (e.g. https://www.mountainproject.com/route/...)'
     valid = false
   }
   if (!props.work.description?.trim()) {
