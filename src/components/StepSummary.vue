@@ -37,7 +37,7 @@
           ref="fileInput"
           type="file"
           multiple
-          accept="image/*,.pdf"
+          accept="image/jpeg,image/png,image/gif,image/webp,image/heic,image/heif,.pdf"
           @change="handleFileInput"
           @dragover.prevent="isDragging = true"
           @dragleave.prevent="isDragging = false"
@@ -128,14 +128,20 @@ const grandTotal = computed(() =>
   props.hardware.reduce((sum, item) => sum + calcItemTotal(item), 0)
 )
 
+const ALLOWED_TYPES = new Set(['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/heic', 'image/heif', 'application/pdf'])
+
+function filterAllowedFiles(fileList) {
+  return Array.from(fileList).filter(f => ALLOWED_TYPES.has(f.type))
+}
+
 function handleFileInput(event) {
-  const newFiles = Array.from(event.target.files || [])
+  const newFiles = filterAllowedFiles(event.target.files || [])
   files.value.push(...newFiles)
   isDragging.value = false
 }
 
 function handleDrop(event) {
-  const newFiles = Array.from(event.dataTransfer.files || [])
+  const newFiles = filterAllowedFiles(event.dataTransfer.files || [])
   files.value.push(...newFiles)
   isDragging.value = false
 }
