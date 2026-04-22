@@ -46,7 +46,6 @@
             }"
             @click="addItem(type.id)"
           >
-            <span class="supply-icon">{{ supplyIcons[type.id] || '⬡' }}</span>
             <span class="supply-label">{{ type.label }}</span>
           </button>
         </div>
@@ -73,17 +72,6 @@ const emit = defineEmits(['update:hardware'])
 const showAddPanel = ref(true)
 const showError = ref(false)
 const cardRefs = ref({})
-
-const supplyIcons = {
-  expansionBolts: '⬡',
-  glueInBolts: '◎',
-  hangers: '⌂',
-  chain: '⛓',
-  quickLinks: '⊙',
-  permadraws: '⊢',
-  anchors: '△',
-  other: '+',
-}
 
 const grandTotal = computed(() =>
   props.hardware.reduce((sum, item) => sum + calcItemTotal(item), 0)
@@ -193,9 +181,7 @@ defineExpose({ validate })
 
 .supply-btn {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 6px;
+  align-items: center;
   padding: 12px 14px;
   background: var(--card-bg);
   border: 1px solid rgba(26,26,24,0.10);
@@ -210,12 +196,6 @@ defineExpose({ validate })
   border-color: var(--btn-accent, var(--rust));
   box-shadow: 0 2px 6px rgba(26,26,24,0.08);
   transform: translateY(-1px);
-}
-
-.supply-icon {
-  font-size: 1.1rem;
-  color: var(--btn-accent, var(--rust));
-  opacity: 0.9;
 }
 
 .supply-label {
