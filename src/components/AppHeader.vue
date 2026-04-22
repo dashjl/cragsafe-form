@@ -2,7 +2,7 @@
   <header class="app-header">
     <div class="header-top">
       <div class="logo-lockup">
-        <img src="/logo.png" alt="CragSafe British Columbia" class="logo-img" />
+        <img src="/logo-invert.png" alt="CragSafe British Columbia" class="logo-img" />
         <div class="logo-text">CragSafe</div>
       </div>
       <div class="header-badge">Funding Application</div>
@@ -13,11 +13,12 @@
     <div v-if="currentStep === 0" class="prereq-block">
       <h2 class="prereq-heading">Before You Begin</h2>
       <p class="prereq-intro">Please have the following ready before starting your application:</p>
-      <ul class="prereq-list">
-        <li>An updated <a href="https://www.mountainproject.com" target="_blank" rel="noopener">Mountain Project</a> route page completed with all route details (name, grade, first ascent, height, description, and protection)</li>
-        <li>A complete list of hardware used for the the project</li>
+      <ol class="prereq-list">
+        <li>The route work must be completed before applying</li>
+        <li>A complete list of hardware used for the project</li>
         <li>Digital copies of receipts for all hardware purchased</li>
-      </ul>
+        <li>An updated <a href="https://www.mountainproject.com" target="_blank" rel="noopener">Mountain Project</a> route page with all route details (name, grade, first ascent, height, description, and protection)</li>
+      </ol>
     </div>
 
     <!-- Progress bar -->
@@ -62,8 +63,12 @@ const progressPct = computed(() =>
 
 <style scoped>
 .app-header {
-  padding: 40px 0 0;
-  margin-bottom: 40px;
+  background: var(--card-bg);
+  border: 1px solid rgba(26,26,24,0.09);
+  border-radius: 6px;
+  padding: 28px 28px 0;
+  margin-bottom: 32px;
+  box-shadow: 0 1px 4px rgba(26,26,24,0.06);
 }
 
 .header-top {
@@ -91,14 +96,14 @@ const progressPct = computed(() =>
   font-size: 2rem;
   letter-spacing: 0.08em;
   line-height: 1;
-  color: var(--chalk);
+  color: var(--stone);
 }
 
 .header-badge {
   font-size: 0.65rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--rust-light);
+  color: var(--rust);
   border: 1px solid rgba(196,82,26,0.35);
   padding: 4px 10px;
   border-radius: 2px;
@@ -106,30 +111,30 @@ const progressPct = computed(() =>
 
 .header-rule {
   height: 1px;
-  background: linear-gradient(90deg, var(--rust), transparent);
-  margin-bottom: 28px;
+  background: linear-gradient(90deg, var(--rust), rgba(196,82,26,0.1), transparent);
+  margin-bottom: 24px;
 }
 
 /* Before You Begin */
 .prereq-block {
-  background: rgba(232, 160, 32, 0.06);
-  border: 1px solid rgba(232, 160, 32, 0.22);
+  background: rgba(212, 146, 10, 0.06);
+  border: 1px solid rgba(212, 146, 10, 0.22);
   border-radius: 4px;
   padding: 20px 24px;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 }
 
 .prereq-heading {
   font-family: var(--font-display);
   font-size: 1.1rem;
   letter-spacing: 0.06em;
-  color: var(--warn, #e8a020);
+  color: #a07010;
   margin: 0 0 8px;
 }
 
 .prereq-intro {
   font-size: 0.85rem;
-  color: var(--chalk-dim);
+  color: var(--text-muted);
   margin: 0 0 10px;
 }
 
@@ -137,7 +142,7 @@ const progressPct = computed(() =>
   margin: 0;
   padding-left: 20px;
   font-size: 0.85rem;
-  color: var(--chalk-dim);
+  color: var(--text-muted);
   line-height: 1.7;
 }
 
@@ -150,7 +155,7 @@ const progressPct = computed(() =>
 }
 
 .prereq-list a {
-  color: var(--sky-light, #7ab8d4);
+  color: var(--sky);
   text-decoration: underline;
 }
 
@@ -178,13 +183,13 @@ const progressPct = computed(() =>
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  border: 1px solid rgba(240,237,230,0.2);
-  background: rgba(240,237,230,0.04);
+  border: 1px solid rgba(26,26,24,0.18);
+  background: rgba(26,26,24,0.03);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.72rem;
-  color: var(--chalk-dim);
+  color: var(--text-muted);
   font-family: var(--font-mono);
   transition: all 0.3s ease;
   position: relative;
@@ -193,33 +198,33 @@ const progressPct = computed(() =>
 
 .progress-step.active .step-dot {
   border-color: var(--rust);
-  background: rgba(196,82,26,0.15);
-  color: var(--rust-light);
-  box-shadow: 0 0 12px rgba(196,82,26,0.3);
+  background: rgba(196,82,26,0.10);
+  color: var(--rust);
+  box-shadow: 0 0 10px rgba(196,82,26,0.18);
 }
 
 .progress-step.complete .step-dot {
   border-color: var(--moss);
   background: var(--moss);
-  color: #8ab870;
+  color: #4a7a30;
 }
 
 .step-label {
   font-size: 0.62rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--chalk-dim);
+  color: var(--text-muted);
   text-align: center;
   transition: color 0.3s;
 }
 
 .progress-step.active .step-label {
-  color: var(--chalk);
+  color: var(--stone);
 }
 
 .progress-bar {
   height: 2px;
-  background: rgba(240,237,230,0.08);
+  background: rgba(26,26,24,0.08);
   border-radius: 1px;
   overflow: hidden;
 }

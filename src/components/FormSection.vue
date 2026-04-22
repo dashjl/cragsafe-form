@@ -22,7 +22,12 @@ defineProps({
 
 <style scoped>
 .form-section {
-  margin-bottom: 12px;
+  background: var(--card-bg);
+  border: 1px solid rgba(26,26,24,0.09);
+  border-radius: 6px;
+  padding: 28px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(26,26,24,0.06), 0 1px 2px rgba(26,26,24,0.04);
 }
 
 .section-header {
@@ -41,12 +46,12 @@ defineProps({
   font-family: var(--font-display);
   font-size: 1.6rem;
   letter-spacing: 0.06em;
-  color: var(--chalk);
+  color: var(--stone);
 }
 
 .section-description {
   font-size: 0.82rem;
-  color: var(--chalk-dim);
+  color: var(--text-muted);
   margin-top: 6px;
   font-family: var(--font-mono);
 }

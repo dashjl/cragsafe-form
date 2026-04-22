@@ -71,39 +71,41 @@ const quarter = computed(() => {
   font-size: 2.4rem;
   letter-spacing: 0.06em;
   margin-bottom: 8px;
-  color: var(--chalk);
+  color: var(--stone);
 }
 
 .success-id {
   font-size: 0.75rem;
-  color: var(--chalk-dim);
+  color: var(--text-muted);
   letter-spacing: 0.1em;
   margin-bottom: 20px;
 }
 
 .success-id span {
-  color: var(--rust-light);
+  color: var(--rust);
   font-family: var(--font-mono);
 }
 
 .success-message {
   font-size: 0.88rem;
-  color: var(--chalk-dim);
+  color: var(--text-muted);
   max-width: 440px;
   margin: 0 auto 32px;
   line-height: 1.7;
 }
 
 .success-message strong {
-  color: var(--chalk);
+  color: var(--stone);
 }
 
 .success-details {
-  border: 1px solid rgba(240,237,230,0.1);
-  border-radius: 2px;
+  border: 1px solid rgba(26,26,24,0.10);
+  border-radius: 4px;
   max-width: 360px;
   margin: 0 auto 32px;
   overflow: hidden;
+  background: var(--card-bg);
+  box-shadow: 0 1px 3px rgba(26,26,24,0.06);
 }
 
 .detail-row {
@@ -111,24 +113,24 @@ const quarter = computed(() => {
   justify-content: space-between;
   padding: 10px 16px;
   font-size: 0.82rem;
-  border-bottom: 1px solid rgba(240,237,230,0.06);
+  border-bottom: 1px solid rgba(26,26,24,0.06);
 }
 
 .detail-row:last-child { border-bottom: none; }
 
 .detail-row span:first-child {
-  color: var(--chalk-dim);
+  color: var(--text-muted);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   font-size: 0.7rem;
 }
 
 .detail-row span:last-child {
-  color: var(--chalk);
+  color: var(--stone);
 }
 
 .mp-link a {
-  color: var(--sky-light, #7ab8d4);
+  color: var(--sky);
   text-decoration: underline;
 }
 </style>

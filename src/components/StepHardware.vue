@@ -127,14 +127,15 @@ defineExpose({ validate })
 
 <style scoped>
 .add-panel {
-  border: 1px dashed rgba(240,237,230,0.15);
+  border: 1px dashed rgba(26,26,24,0.18);
   border-radius: 3px;
   overflow: hidden;
   transition: border-color 0.2s;
 }
 
 .add-panel--open {
-  border-color: rgba(196,82,26,0.3);
+  border-color: rgba(196,82,26,0.35);
+  border-style: solid;
 }
 
 .add-trigger {
@@ -148,7 +149,7 @@ defineExpose({ validate })
 }
 
 .add-trigger:hover {
-  background: rgba(240,237,230,0.03);
+  background: rgba(26,26,24,0.03);
 }
 
 .add-trigger-label {
@@ -158,7 +159,7 @@ defineExpose({ validate })
   font-family: var(--font-display);
   font-size: 1.1rem;
   letter-spacing: 0.06em;
-  color: var(--chalk-dim);
+  color: var(--stone);
 }
 
 .add-icon {
@@ -169,14 +170,14 @@ defineExpose({ validate })
   justify-content: center;
   border: 1px solid rgba(196,82,26,0.5);
   border-radius: 50%;
-  color: var(--rust-light);
+  color: var(--rust);
   font-size: 1.1rem;
   line-height: 1;
 }
 
 .add-trigger-hint {
   font-size: 0.68rem;
-  color: rgba(240,237,230,0.3);
+  color: var(--text-muted);
   letter-spacing: 0.08em;
   font-family: var(--font-mono);
 }
@@ -186,7 +187,8 @@ defineExpose({ validate })
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 8px;
   padding: 12px 16px 16px;
-  border-top: 1px solid rgba(240,237,230,0.08);
+  border-top: 1px solid rgba(26,26,24,0.08);
+  background: rgba(26,26,24,0.02);
 }
 
 .supply-btn {
@@ -195,8 +197,8 @@ defineExpose({ validate })
   align-items: flex-start;
   gap: 6px;
   padding: 12px 14px;
-  background: rgba(240,237,230,0.03);
-  border: 1px solid rgba(240,237,230,0.1);
+  background: var(--card-bg);
+  border: 1px solid rgba(26,26,24,0.10);
   border-radius: 2px;
   cursor: pointer;
   transition: all 0.15s;
@@ -204,21 +206,22 @@ defineExpose({ validate })
 }
 
 .supply-btn:hover {
-  background: rgba(240,237,230,0.06);
+  background: var(--card-bg);
   border-color: var(--btn-accent, var(--rust));
+  box-shadow: 0 2px 6px rgba(26,26,24,0.08);
   transform: translateY(-1px);
 }
 
 .supply-icon {
   font-size: 1.1rem;
   color: var(--btn-accent, var(--rust));
-  opacity: 0.8;
+  opacity: 0.9;
 }
 
 .supply-label {
   font-size: 0.78rem;
   letter-spacing: 0.05em;
-  color: var(--chalk-dim);
+  color: var(--text-muted);
   font-family: var(--font-mono);
   line-height: 1.3;
 }
@@ -229,22 +232,22 @@ defineExpose({ validate })
   justify-content: space-between;
   padding: 14px 16px;
   margin-bottom: 16px;
-  background: rgba(196,82,26,0.06);
-  border: 1px solid rgba(196,82,26,0.2);
-  border-radius: 2px;
+  background: rgba(196,82,26,0.05);
+  border: 1px solid rgba(196,82,26,0.18);
+  border-radius: 3px;
 }
 
 .grand-total-label {
   font-size: 0.72rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--chalk-dim);
+  color: var(--text-muted);
 }
 
 .grand-total-amount {
   font-family: var(--font-display);
   font-size: 1.4rem;
-  color: var(--chalk);
+  color: var(--stone);
   letter-spacing: 0.06em;
 }
 </style>

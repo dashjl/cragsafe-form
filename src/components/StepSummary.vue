@@ -202,7 +202,7 @@ defineExpose({ validate, files })
   font-size: 0.68rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--chalk-dim);
+  color: var(--text-muted);
   margin-bottom: 12px;
 }
 
@@ -212,8 +212,8 @@ defineExpose({ validate, files })
   gap: 8px;
   margin-bottom: 16px;
   padding: 12px 0;
-  border-top: 1px solid rgba(240,237,230,0.08);
-  border-bottom: 1px solid rgba(240,237,230,0.08);
+  border-top: 1px solid rgba(26,26,24,0.08);
+  border-bottom: 1px solid rgba(26,26,24,0.08);
 }
 
 .hardware-item {
@@ -230,10 +230,10 @@ defineExpose({ validate, files })
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(196,82,26,0.15);
-  border: 1px solid rgba(196,82,26,0.3);
+  background: rgba(196,82,26,0.10);
+  border: 1px solid rgba(196,82,26,0.25);
   border-radius: 2px;
-  color: var(--rust-light);
+  color: var(--rust);
   font-size: 0.75rem;
   font-weight: 600;
 }
@@ -243,7 +243,7 @@ defineExpose({ validate, files })
 }
 
 .hardware-type {
-  color: var(--chalk);
+  color: var(--stone);
   font-weight: 500;
   margin-bottom: 3px;
 }
@@ -252,7 +252,7 @@ defineExpose({ validate, files })
   display: flex;
   gap: 12px;
   font-size: 0.75rem;
-  color: var(--chalk-dim);
+  color: var(--text-muted);
 }
 
 .section-total {
@@ -260,35 +260,36 @@ defineExpose({ validate, files })
   align-items: center;
   justify-content: space-between;
   padding: 12px 14px;
-  background: rgba(196,82,26,0.06);
-  border: 1px solid rgba(196,82,26,0.2);
-  border-radius: 2px;
+  background: rgba(196,82,26,0.05);
+  border: 1px solid rgba(196,82,26,0.18);
+  border-radius: 3px;
 }
 
 .total-label {
   font-size: 0.72rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--chalk-dim);
+  color: var(--text-muted);
 }
 
 .total-amount {
   font-family: var(--font-display);
   font-size: 1.2rem;
-  color: var(--chalk);
+  color: var(--stone);
   letter-spacing: 0.06em;
 }
 
 .upload-area {
-  border: 2px dashed rgba(196,82,26,0.2);
+  border: 2px dashed rgba(26,26,24,0.15);
   border-radius: 3px;
   transition: all 0.2s;
   margin-bottom: 16px;
+  background: rgba(26,26,24,0.02);
 }
 
 .upload-area--drag {
-  border-color: rgba(196,82,26,0.6);
-  background: rgba(196,82,26,0.08);
+  border-color: rgba(196,82,26,0.5);
+  background: rgba(196,82,26,0.04);
 }
 
 .upload-trigger {
@@ -302,12 +303,12 @@ defineExpose({ validate, files })
 }
 
 .upload-trigger:hover {
-  background: rgba(240,237,230,0.03);
+  background: rgba(26,26,24,0.03);
 }
 
 .upload-icon {
   font-size: 1.8rem;
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
 .upload-text {
@@ -316,13 +317,13 @@ defineExpose({ validate, files })
 
 .upload-title {
   font-size: 0.95rem;
-  color: var(--chalk);
+  color: var(--stone);
   margin-bottom: 2px;
 }
 
 .upload-hint {
   font-size: 0.75rem;
-  color: var(--chalk-dim);
+  color: var(--text-muted);
 }
 
 .files-list {
@@ -337,14 +338,14 @@ defineExpose({ validate, files })
   align-items: center;
   gap: 12px;
   padding: 10px 12px;
-  background: rgba(240,237,230,0.03);
-  border: 1px solid rgba(240,237,230,0.1);
+  background: var(--card-bg);
+  border: 1px solid rgba(26,26,24,0.10);
   border-radius: 2px;
 }
 
 .file-icon {
   font-size: 1.1rem;
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
 .file-info {
@@ -354,7 +355,7 @@ defineExpose({ validate, files })
 
 .file-name {
   font-size: 0.85rem;
-  color: var(--chalk);
+  color: var(--stone);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -362,14 +363,14 @@ defineExpose({ validate, files })
 
 .file-size {
   font-size: 0.72rem;
-  color: var(--chalk-dim);
+  color: var(--text-muted);
   margin-top: 2px;
 }
 
 .file-remove {
   background: none;
   border: none;
-  color: rgba(240,237,230,0.4);
+  color: rgba(26,26,24,0.3);
   cursor: pointer;
   padding: 4px 8px;
   font-size: 0.9rem;
@@ -377,7 +378,7 @@ defineExpose({ validate, files })
 }
 
 .file-remove:hover {
-  color: var(--chalk);
+  color: var(--stone);
 }
 
 
@@ -385,8 +386,8 @@ defineExpose({ validate, files })
   display: inline-block;
   width: 12px;
   height: 12px;
-  border: 2px solid rgba(240,237,230,0.3);
-  border-top-color: var(--chalk);
+  border: 2px solid rgba(26,26,24,0.15);
+  border-top-color: var(--stone);
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
   margin-right: 6px;
@@ -401,10 +402,10 @@ defineExpose({ validate, files })
   align-items: center;
   gap: 12px;
   padding: 12px 14px;
-  background: rgba(58,136,84,0.1);
-  border: 1px solid rgba(58,136,84,0.3);
-  border-radius: 2px;
-  color: #7dd3a0;
+  background: rgba(74,92,58,0.08);
+  border: 1px solid rgba(74,92,58,0.25);
+  border-radius: 3px;
+  color: #3d7030;
 }
 
 .success-icon {
@@ -422,22 +423,22 @@ defineExpose({ validate, files })
 
 .success-hint {
   font-size: 0.75rem;
-  color: rgba(125,211,160,0.8);
+  color: #5a9048;
   margin-top: 2px;
 }
 
 .upload-error {
   padding: 12px 14px;
-  background: rgba(196,48,48,0.1);
-  border: 1px solid rgba(196,48,48,0.3);
-  border-radius: 2px;
+  background: rgba(184,48,48,0.06);
+  border: 1px solid rgba(184,48,48,0.2);
+  border-radius: 3px;
   font-size: 0.82rem;
-  color: #e08080;
+  color: #b83030;
   margin-bottom: 12px;
 }
 
 .error-msg {
-  color: #e08080;
+  color: var(--error);
   font-size: 0.82rem;
 }
 

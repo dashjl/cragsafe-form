@@ -170,18 +170,19 @@ defineExpose({ validate })
 
 <style scoped>
 .hardware-card {
-  border: 1px solid rgba(240,237,230,0.1);
+  border: 1px solid rgba(26,26,24,0.10);
   border-left: 3px solid var(--accent, var(--rust));
   border-radius: 3px;
   margin-bottom: 16px;
-  background: rgba(240,237,230,0.02);
+  background: var(--card-bg);
   overflow: hidden;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .hardware-card:hover {
-  border-color: rgba(240,237,230,0.18);
+  border-color: rgba(26,26,24,0.16);
   border-left-color: var(--accent, var(--rust));
+  box-shadow: 0 2px 6px rgba(26,26,24,0.06);
 }
 
 .card-header {
@@ -189,8 +190,8 @@ defineExpose({ validate })
   align-items: center;
   justify-content: space-between;
   padding: 12px 16px;
-  border-bottom: 1px solid rgba(240,237,230,0.06);
-  background: rgba(240,237,230,0.02);
+  border-bottom: 1px solid rgba(26,26,24,0.07);
+  background: rgba(26,26,24,0.025);
 }
 
 .card-title-row {
@@ -212,7 +213,7 @@ defineExpose({ validate })
 
 .card-index {
   font-size: 0.7rem;
-  color: var(--chalk-dim);
+  color: var(--text-muted);
   letter-spacing: 0.06em;
 }
 
@@ -234,9 +235,9 @@ defineExpose({ validate })
 .conditional-fields {
   margin-top: 16px;
   padding: 16px;
-  border: 1px solid rgba(240,237,230,0.08);
+  border: 1px solid rgba(26,26,24,0.08);
   border-radius: 2px;
-  background: rgba(240,237,230,0.015);
+  background: rgba(26,26,24,0.02);
 }
 
 .currency-input {
@@ -248,7 +249,7 @@ defineExpose({ validate })
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--chalk-dim);
+  color: var(--text-muted);
   font-size: 0.88rem;
   pointer-events: none;
   z-index: 1;
@@ -264,16 +265,16 @@ defineExpose({ validate })
   align-items: center;
   padding: 10px 0 8px;
   margin-top: 8px;
-  border-top: 1px solid rgba(240,237,230,0.08);
+  border-top: 1px solid rgba(26,26,24,0.08);
   font-size: 0.78rem;
-  color: var(--chalk-dim);
+  color: var(--text-muted);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
 .total-amount {
   font-size: 0.92rem;
-  color: var(--chalk);
+  color: var(--stone);
   font-weight: 500;
 }
 </style>

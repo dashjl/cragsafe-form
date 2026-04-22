@@ -1,23 +1,29 @@
 :root {
   --stone: #1a1a18;
   --granite: #2c2c28;
-  --chalk: #f0ede6;
+  --chalk: #f5f1ea;
   --chalk-dim: #c8c4bc;
   --rust: #c4521a;
   --rust-light: #e8631f;
   --moss: #4a5c3a;
-  --sky: #7ea8c4;
-  --sky-light: #a8c8e0;
-  --warn: #e8a020;
-  --error: #c43030;
+  --sky: #4a7c9e;
+  --sky-light: #6a9cbf;
+  --warn: #d4920a;
+  --error: #b83030;
+
+  /* Light-theme semantic */
+  --text-muted: #7a7670;
+  --card-bg: #ffffff;
+  --input-border: rgba(26,26,24,0.16);
+  --subtle-bg: rgba(26,26,24,0.03);
 
   --font-display: 'Bebas Neue', sans-serif;
   --font-serif: 'DM Serif Text', serif;
   --font-mono: 'DM Mono', monospace;
 
-  --radius: 2px;
+  --radius: 3px;
   --transition: 150ms ease;
-  --border: 1px solid rgba(240,237,230,0.15);
+  --border: 1px solid rgba(26,26,24,0.10);
 }
 
 *, *::before, *::after {
@@ -32,16 +38,16 @@ html {
 }
 
 body {
-  background-color: var(--stone);
-  color: var(--chalk);
+  background-color: var(--chalk);
+  background-image: url('/topo-bg.svg');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  color: var(--stone);
   font-family: var(--font-mono);
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.6;
   min-height: 100vh;
-  background-image:
-    radial-gradient(ellipse at 20% 0%, rgba(196,82,26,0.08) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 100%, rgba(74,92,58,0.10) 0%, transparent 60%),
-    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.015'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
 #app {
@@ -66,7 +72,7 @@ label {
   font-size: 0.72rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--chalk-dim);
+  color: var(--text-muted);
   margin-bottom: 6px;
   font-weight: 500;
 }
@@ -79,15 +85,15 @@ input[type="url"],
 textarea,
 select {
   width: 100%;
-  background: rgba(240,237,230,0.04);
-  border: 1px solid rgba(240,237,230,0.18);
+  background: var(--card-bg);
+  border: 1px solid var(--input-border);
   border-radius: var(--radius);
-  color: var(--chalk);
+  color: var(--stone);
   font-family: var(--font-mono);
   font-size: 0.88rem;
-  font-weight: 300;
+  font-weight: 400;
   padding: 10px 14px;
-  transition: border-color var(--transition), background var(--transition);
+  transition: border-color var(--transition), box-shadow var(--transition);
   outline: none;
   appearance: none;
   -webkit-appearance: none;
@@ -101,16 +107,16 @@ input[type="url"]:focus,
 textarea:focus,
 select:focus {
   border-color: var(--rust);
-  background: rgba(196,82,26,0.06);
+  box-shadow: 0 0 0 3px rgba(196,82,26,0.08);
 }
 
 input::placeholder, textarea::placeholder {
-  color: rgba(240,237,230,0.25);
+  color: rgba(26,26,24,0.28);
 }
 
 select option {
-  background: var(--granite);
-  color: var(--chalk);
+  background: var(--card-bg);
+  color: var(--stone);
 }
 
 textarea {
@@ -152,7 +158,7 @@ textarea {
 .helper-text {
   display: block;
   font-size: 0.72rem;
-  color: var(--chalk-dim);
+  color: var(--text-muted);
   margin-top: 4px;
   letter-spacing: 0.05em;
 }
@@ -174,7 +180,7 @@ textarea {
 
 .btn-primary {
   background: var(--rust);
-  color: var(--chalk);
+  color: #ffffff;
 }
 .btn-primary:hover {
   background: var(--rust-light);
@@ -182,35 +188,36 @@ textarea {
 
 .btn-secondary {
   background: transparent;
-  border: 1px solid rgba(240,237,230,0.25);
-  color: var(--chalk-dim);
+  border: 1px solid rgba(26,26,24,0.22);
+  color: var(--stone);
 }
 .btn-secondary:hover {
-  border-color: var(--chalk);
-  color: var(--chalk);
+  border-color: var(--stone);
+  background: rgba(26,26,24,0.04);
 }
 
 .btn-ghost {
   background: transparent;
   border: 1px solid rgba(196,82,26,0.4);
-  color: var(--rust-light);
+  color: var(--rust);
   font-size: 0.85rem;
   padding: 7px 16px;
 }
 .btn-ghost:hover {
-  background: rgba(196,82,26,0.1);
-  border-color: var(--rust-light);
+  background: rgba(196,82,26,0.06);
+  border-color: var(--rust);
 }
 
 .btn-danger {
   background: transparent;
-  border: 1px solid rgba(196,48,48,0.35);
-  color: #e06060;
+  border: 1px solid rgba(184,48,48,0.3);
+  color: #b85050;
   font-size: 0.78rem;
   padding: 6px 12px;
 }
 .btn-danger:hover {
-  background: rgba(196,48,48,0.12);
+  background: rgba(184,48,48,0.06);
+  border-color: #b85050;
 }
 
 /* Checkbox groups */
@@ -226,6 +233,7 @@ textarea {
   gap: 10px;
   cursor: pointer;
   font-size: 0.88rem;
+  color: var(--stone);
 }
 
 .checkbox-item input[type="checkbox"] {
@@ -233,9 +241,9 @@ textarea {
   height: 16px;
   appearance: none;
   -webkit-appearance: none;
-  background: rgba(240,237,230,0.05);
-  border: 1px solid rgba(240,237,230,0.25);
-  border-radius: 1px;
+  background: var(--card-bg);
+  border: 1px solid rgba(26,26,24,0.25);
+  border-radius: 2px;
   cursor: pointer;
   flex-shrink: 0;
   position: relative;
@@ -279,7 +287,7 @@ textarea {
 .radio-pill label {
   display: inline-block;
   padding: 6px 14px;
-  border: 1px solid rgba(240,237,230,0.18);
+  border: 1px solid rgba(26,26,24,0.18);
   border-radius: 20px;
   font-size: 0.78rem;
   letter-spacing: 0.06em;
@@ -287,24 +295,24 @@ textarea {
   cursor: pointer;
   transition: all var(--transition);
   margin: 0;
-  color: var(--chalk-dim);
+  color: var(--text-muted);
 }
 
 .radio-pill input[type="radio"]:checked + label {
   background: var(--rust);
   border-color: var(--rust);
-  color: var(--chalk);
+  color: #ffffff;
 }
 
 .radio-pill label:hover {
-  border-color: var(--chalk-dim);
-  color: var(--chalk);
+  border-color: rgba(26,26,24,0.35);
+  color: var(--stone);
 }
 
 /* Dividers */
 .divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(240,237,230,0.12), transparent);
+  background: linear-gradient(90deg, transparent, rgba(26,26,24,0.10), transparent);
   margin: 32px 0;
 }
 
@@ -321,7 +329,7 @@ textarea {
 /* Required star */
 .required::after {
   content: ' *';
-  color: var(--rust-light);
+  color: var(--rust);
 }
 
 /* Section status badge */
@@ -336,13 +344,19 @@ textarea {
 }
 
 .status-badge.complete {
-  background: rgba(74,92,58,0.3);
-  color: #8ab870;
-  border: 1px solid rgba(74,92,58,0.5);
+  background: rgba(74,92,58,0.10);
+  color: #3d7030;
+  border: 1px solid rgba(74,92,58,0.3);
 }
 
 .status-badge.incomplete {
-  background: rgba(232,160,32,0.15);
-  color: var(--warn);
-  border: 1px solid rgba(232,160,32,0.3);
+  background: rgba(212,146,10,0.10);
+  color: #a07010;
+  border: 1px solid rgba(212,146,10,0.3);
+}
+
+.status-badge.pending {
+  background: rgba(74,124,158,0.10);
+  color: #3a6a8e;
+  border: 1px solid rgba(74,124,158,0.3);
 }

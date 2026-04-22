@@ -106,19 +106,19 @@ defineExpose({ validate })
 .waiver-scroll {
   max-height: 320px;
   overflow-y: auto;
-  border: 1px solid rgba(240,237,230,0.12);
-  border-radius: 2px;
+  border: 1px solid rgba(26,26,24,0.10);
+  border-radius: 3px;
   padding: 20px;
   margin-bottom: 24px;
-  background: rgba(240,237,230,0.02);
+  background: rgba(26,26,24,0.02);
   scrollbar-width: thin;
-  scrollbar-color: rgba(196,82,26,0.4) transparent;
+  scrollbar-color: rgba(196,82,26,0.3) transparent;
 }
 
 .waiver-text {
   font-size: 0.8rem;
   line-height: 1.8;
-  color: rgba(240,237,230,0.75);
+  color: rgba(26,26,24,0.72);
 }
 
 .waiver-text p {
@@ -126,12 +126,12 @@ defineExpose({ validate })
 }
 
 .waiver-text strong {
-  color: var(--chalk-dim);
+  color: var(--stone);
 }
 
 .waiver-sign {
-  border: 1px solid rgba(196,82,26,0.2);
-  border-radius: 2px;
+  border: 1px solid rgba(196,82,26,0.18);
+  border-radius: 3px;
   padding: 20px;
   background: rgba(196,82,26,0.03);
 }
@@ -141,7 +141,7 @@ defineExpose({ validate })
   font-size: 1rem;
   letter-spacing: 0.1em;
   margin-bottom: 16px;
-  color: var(--chalk-dim);
+  color: var(--stone);
 }
 
 .signature-input {
@@ -152,34 +152,34 @@ defineExpose({ validate })
 }
 
 .date-readonly {
-  background: rgba(240,237,230,0.02) !important;
-  color: var(--chalk-dim) !important;
+  background: rgba(26,26,24,0.03) !important;
+  color: var(--text-muted) !important;
   cursor: default;
 }
 
 .agree-check {
   cursor: pointer;
   padding: 12px;
-  border: 1px solid rgba(240,237,230,0.1);
-  border-radius: 2px;
+  border: 1px solid rgba(26,26,24,0.10);
+  border-radius: 3px;
   transition: background 0.15s;
   font-size: 0.82rem;
   line-height: 1.6;
 }
 
 .agree-check:hover {
-  background: rgba(240,237,230,0.03);
+  background: rgba(26,26,24,0.03);
 }
 
 .helper-text {
   display: block;
   font-size: 0.78rem;
-  color: rgba(240,237,230,0.45);
+  color: var(--text-muted);
   margin-top: 4px;
 }
 
 .helper-text strong {
-  color: rgba(240,237,230,0.65);
+  color: var(--stone);
 }
 
 .check-error {

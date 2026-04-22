@@ -254,10 +254,13 @@ function resetForm() {
 .nav-row {
   display: flex;
   align-items: center;
-  padding: 24px 0 0;
-  border-top: var(--border);
+  padding: 16px 20px;
+  border: 1px solid rgba(26,26,24,0.09);
+  border-radius: 6px;
   margin-top: 8px;
   gap: 12px;
+  background: var(--card-bg);
+  box-shadow: 0 1px 3px rgba(26,26,24,0.06);
 }
 
 .nav-spacer { flex: 1; }
@@ -269,7 +272,7 @@ function resetForm() {
 
 .submit-btn:disabled,
 .btn:disabled {
-  opacity: 0.7;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 
@@ -277,8 +280,8 @@ function resetForm() {
   display: inline-block;
   width: 14px;
   height: 14px;
-  border: 2px solid rgba(240,237,230,0.3);
-  border-top-color: var(--chalk);
+  border: 2px solid rgba(255,255,255,0.35);
+  border-top-color: #ffffff;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
 }
@@ -290,33 +293,33 @@ function resetForm() {
 .submit-error {
   margin-top: 12px;
   padding: 12px 16px;
-  background: rgba(196,48,48,0.1);
-  border: 1px solid rgba(196,48,48,0.3);
-  border-radius: 2px;
+  background: rgba(184,48,48,0.06);
+  border: 1px solid rgba(184,48,48,0.2);
+  border-radius: 4px;
   font-size: 0.82rem;
-  color: #e08080;
+  color: #b83030;
 }
 
 .config-notice {
   margin-top: 12px;
   padding: 12px 16px;
-  background: rgba(232,160,32,0.08);
-  border: 1px solid rgba(232,160,32,0.25);
-  border-radius: 2px;
+  background: rgba(212,146,10,0.07);
+  border: 1px solid rgba(212,146,10,0.22);
+  border-radius: 4px;
   font-size: 0.78rem;
-  color: var(--warn);
+  color: #a07010;
   line-height: 1.6;
 }
 
 .config-notice code {
-  background: rgba(232,160,32,0.15);
+  background: rgba(212,146,10,0.12);
   padding: 1px 5px;
   border-radius: 2px;
   font-family: var(--font-mono);
 }
 
 .config-notice a {
-  color: var(--sky-light);
+  color: var(--sky);
   text-decoration: underline;
 }
 </style>
