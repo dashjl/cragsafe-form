@@ -17,7 +17,7 @@
         <li>The route work must be completed before applying</li>
         <li>A complete list of hardware used for the project</li>
         <li>Digital copies of receipts for all hardware purchased</li>
-        <li>An updated <a href="https://www.mountainproject.com" target="_blank" rel="noopener">Mountain Project</a> route page with all route details (name, grade, first ascent, height, description, and protection)</li>
+        <li>An updated <a href="https://www.mountainproject.com" target="_blank" rel="noopener">Mountain Project</a> route page with all route details (name, first ascent name and date, height, grade, description, protection, and photo)</li>
       </ol>
     </div>
 
