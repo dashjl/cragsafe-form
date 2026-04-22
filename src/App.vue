@@ -205,6 +205,8 @@ async function handleSubmit() {
   submitError.value = ''
 
   try {
+    const appId = generateApplicationId()
+
     if (!SCRIPT_URL) {
       // No URL set — show config notice and still "succeed" for demo purposes
       showConfigNotice.value = true
@@ -212,11 +214,12 @@ async function handleSubmit() {
     } else {
       const summaryStep = stepSummary.value
       const files = summaryStep?.files || []
-      await submitToGoogleSheets(formData, SCRIPT_URL, files)
+      await submitToGoogleSheets(formData, SCRIPT_URL, files, appId)
     }
 
-    submittedId.value = generateApplicationId()
+    submittedId.value = appId
     submitted.value = true
+    currentStep.value = STEPS.length
     window.scrollTo({ top: 0, behavior: 'smooth' })
   } catch (err) {
     submitError.value = 'Please check your connection and try again. If the problem persists, contact CragSafe directly.'

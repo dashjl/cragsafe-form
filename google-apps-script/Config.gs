@@ -11,3 +11,6 @@ const SHEET_ID = 'YOUR_SPREADSHEET_ID_HERE'
 // Create a folder in Google Drive for receipts, then copy its ID from the URL:
 // https://drive.google.com/drive/folders/{RECEIPTS_FOLDER_ID}
 const RECEIPTS_FOLDER_ID = 'YOUR_RECEIPTS_FOLDER_ID_HERE'
+
+// Email address to receive new application notifications
+const NOTIFICATION_EMAIL = 'YOUR_NOTIFICATION_EMAIL_HERE'

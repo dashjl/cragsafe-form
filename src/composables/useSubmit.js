@@ -1,8 +1,8 @@
 // Google Sheets submission via Apps Script Web App
 // See README for setup instructions
 
-export async function submitToGoogleSheets(formData, scriptUrl, files = []) {
-  const payload = flattenFormData(formData)
+export async function submitToGoogleSheets(formData, scriptUrl, files = [], applicationId) {
+  const payload = flattenFormData(formData, applicationId)
 
   // If there are files, use multipart/form-data, otherwise use JSON
   if (files.length > 0) {
@@ -23,17 +23,20 @@ export async function submitToGoogleSheets(formData, scriptUrl, files = []) {
 async function submitWithFiles(payload, scriptUrl, files) {
   const formData = new FormData()
 
-  // Add all form fields
   Object.entries(payload).forEach(([key, value]) => {
     formData.append(key, typeof value === 'object' ? JSON.stringify(value) : value)
   })
 
-  // Add files
-  files.forEach((file, index) => {
-    formData.append(`receipt_${index}`, file)
-  })
+  // Encode files as base64 — multipart bodies are dropped by Apps Script's redirect
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i]
+    const base64 = await fileToBase64(file)
+    formData.append(`receipt_${i}`, base64)
+    formData.append(`receipt_${i}_name`, file.name)
+    formData.append(`receipt_${i}_type`, file.type)
+  }
 
-  const response = await fetch(scriptUrl, {
+  await fetch(scriptUrl, {
     method: 'POST',
     mode: 'no-cors',
     body: formData,
@@ -42,11 +45,20 @@ async function submitWithFiles(payload, scriptUrl, files) {
   return { success: true }
 }
 
-function flattenFormData(formData) {
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(reader.result.split(',')[1])
+    reader.onerror = reject
+    reader.readAsDataURL(file)
+  })
+}
+
+function flattenFormData(formData, applicationId) {
   return {
     // Metadata
     submittedAt: new Date().toISOString(),
-    applicationId: `CS-${Date.now()}`,
+    applicationId,
 
     // Route Details
     mountainProjectUrl: formData.route.mountainProjectUrl,
