@@ -52,9 +52,11 @@
       </transition>
     </div>
 
-    <p v-if="showError" class="error-msg" style="margin-top: 12px;">
-      Please add at least one supply item before continuing.
-    </p>
+    <transition name="slide-fade">
+      <div v-if="errorBanner" class="validation-banner">
+        {{ errorBanner }}
+      </div>
+    </transition>
   </FormSection>
 </template>
 
@@ -70,7 +72,7 @@ const props = defineProps({
 const emit = defineEmits(['update:hardware'])
 
 const showAddPanel = ref(true)
-const showError = ref(false)
+const errorBanner = ref('')
 const cardRefs = ref({})
 
 const grandTotal = computed(() =>
@@ -81,7 +83,7 @@ function addItem(typeId) {
   const newItem = createHardwareItem(typeId)
   emit('update:hardware', [...props.hardware, newItem])
   showAddPanel.value = false
-  showError.value = false
+  errorBanner.value = ''
   // Scroll to bottom after render
   setTimeout(() => {
     const el = document.querySelector('.add-panel')
@@ -97,16 +99,30 @@ function removeItem(index) {
 
 function validate() {
   if (props.hardware.length === 0) {
-    showError.value = true
+    errorBanner.value = 'Please add at least one supply item before continuing.'
     return false
   }
-  showError.value = false
+  errorBanner.value = ''
 
-  // Validate all cards
+  // Validate all cards, track first invalid
   let valid = true
+  let firstInvalidEl = null
   for (const [id, cardRef] of Object.entries(cardRefs.value)) {
-    if (cardRef && !cardRef.validate()) valid = false
+    if (cardRef && !cardRef.validate()) {
+      valid = false
+      if (!firstInvalidEl) firstInvalidEl = cardRef.root
+    }
   }
+
+  if (!valid) {
+    errorBanner.value = 'Some items have incomplete required fields — please review the highlighted items below.'
+    if (firstInvalidEl) {
+      setTimeout(() => {
+        firstInvalidEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }, 50)
+    }
+  }
+
   return valid
 }
 
@@ -204,6 +220,17 @@ defineExpose({ validate })
   color: var(--text-muted);
   font-family: var(--font-mono);
   line-height: 1.3;
+}
+
+.validation-banner {
+  margin-top: 12px;
+  padding: 12px 16px;
+  background: rgba(184,48,48,0.07);
+  border: 1px solid rgba(184,48,48,0.25);
+  border-radius: 3px;
+  font-size: 0.82rem;
+  color: #b83030;
+  line-height: 1.5;
 }
 
 .grand-total {

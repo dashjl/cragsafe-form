@@ -1,5 +1,5 @@
 <template>
-  <div class="hardware-card" :style="{ '--accent': typeConfig.color }">
+  <div ref="root" class="hardware-card" :class="{ 'hardware-card--invalid': hasErrors }" :style="{ '--accent': typeConfig.color }">
     <div class="card-header">
       <div class="card-title-row">
         <div class="type-tag" :style="{ background: typeConfig.color + '22', borderColor: typeConfig.color + '55', color: typeConfig.color }">
@@ -130,7 +130,7 @@
 </template>
 
 <script setup>
-import { reactive, computed } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { HARDWARE_FIELDS, calcItemTotal, formatCurrency } from '../composables/hardwareData.js'
 
 const props = defineProps({
@@ -139,8 +139,10 @@ const props = defineProps({
 })
 defineEmits(['remove'])
 
+const root = ref(null)
 const typeConfig = computed(() => HARDWARE_FIELDS[props.item.type])
 const errors = reactive({})
+const hasErrors = computed(() => Object.values(errors).some(Boolean))
 const lineTotal = computed(() => calcItemTotal(props.item))
 
 function validate() {
@@ -150,6 +152,11 @@ function validate() {
     if (field.required && !props.item.values[field.id]) {
       errors[field.id] = 'Required'
       valid = false
+    } else if (props.item.values[field.id] === 'Other' && !props.item.otherValues[field.id]?.trim()) {
+      errors[field.id] = 'Please specify'
+      valid = false
+    } else {
+      errors[field.id] = ''
     }
     // Check conditional sub-fields
     if (field.conditional && props.item.values[field.id]) {
@@ -158,6 +165,11 @@ function validate() {
         if (sf.required && !props.item.values[sf.id]) {
           errors[sf.id] = 'Required'
           valid = false
+        } else if (props.item.values[sf.id] === 'Other' && !props.item.otherValues[sf.id]?.trim()) {
+          errors[sf.id] = 'Please specify'
+          valid = false
+        } else {
+          errors[sf.id] = ''
         }
       }
     }
@@ -165,7 +177,7 @@ function validate() {
   return valid
 }
 
-defineExpose({ validate })
+defineExpose({ validate, root })
 </script>
 
 <style scoped>
@@ -183,6 +195,12 @@ defineExpose({ validate })
   border-color: rgba(26,26,24,0.16);
   border-left-color: var(--accent, var(--rust));
   box-shadow: 0 2px 6px rgba(26,26,24,0.06);
+}
+
+.hardware-card--invalid {
+  border-color: rgba(184,48,48,0.35);
+  border-left-color: #b83030;
+  box-shadow: 0 0 0 2px rgba(184,48,48,0.10);
 }
 
 .card-header {

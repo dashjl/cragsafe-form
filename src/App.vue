@@ -180,10 +180,7 @@ async function goNext() {
     continuing.value = true
     try {
       const valid = await ref.validate()
-      if (!valid) {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-        return
-      }
+      if (!valid) return
     } finally {
       continuing.value = false
     }
