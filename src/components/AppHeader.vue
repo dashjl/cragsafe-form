@@ -1,10 +1,10 @@
 <template>
   <header class="app-header">
     <div class="header-top">
-      <div class="logo-lockup">
+      <a href="https://cragsafe.ca" target="_blank" rel="noopener" class="logo-lockup">
         <img src="/logo-invert.png" alt="CragSafe British Columbia" class="logo-img" />
         <div class="logo-text">CragSafe</div>
-      </div>
+      </a>
       <div class="header-badge">Funding Application</div>
     </div>
     <div class="header-rule"></div>
@@ -82,6 +82,8 @@ const progressPct = computed(() =>
   display: flex;
   align-items: center;
   gap: 14px;
+  text-decoration: none;
+  color: inherit;
 }
 
 .logo-img {
